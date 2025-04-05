@@ -1,0 +1,292 @@
+﻿@page
+@model Assignment4ChatApplication.Pages.IndexModel
+@{
+    ViewData["Title"] = "NodeChat";
+}
+
+<style>
+/* Modern Chat App Styling */
+:root {
+  --primary-color: #4f46e5;
+  --secondary-color: #818cf8;
+  --message-sender: #ffffff;
+  --message-color: #000000; /* Light mode default */
+  --system-message-color: black;
+  --message-recipient: #dbeafe;
+  --message-system: #f3f4f6;
+  --border-radius: 16px;
+  --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --transition: all 0.3s ease;
+}
+
+.darkmode {
+    --message-sender: #1e3a5f; /* Deep navy blue */
+    --message-recipient: #1e3a31; /* Deep teal */
+    --system-message-color: white;
+    --message-system: #2d3748; /* Slate gray */
+    --message-color: lightgray; /* Dark mode override */
+}
+
+/* Chat Messages Styling */
+.systemUser {
+  background-color: var(--message-system);
+  padding: 10px 16px;
+  border-radius: var(--border-radius);
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
+.sender {
+  background-color: var(--message-sender);
+  padding: 12px 16px;
+  border-radius: var(--border-radius) var(--border-radius) 0 var(--border-radius);
+  margin-bottom: 12px;
+  align-self: flex-start;
+  box-shadow: var(--box-shadow);
+  max-width: 80%;
+  position: relative;
+}
+
+.recipient {
+  background-color: var(--message-recipient);
+  padding: 12px 16px;
+  border-radius: var(--border-radius) var(--border-radius) var(--border-radius) 0;
+  margin-bottom: 12px;
+  margin-left: 15%;
+  align-self: flex-end;
+  box-shadow: var(--box-shadow);
+  max-width: 80%;
+  position: relative;
+}
+
+.messageLi {
+  background-color: transparent;
+  list-style-type: none;
+  padding: 4px 0;
+  transition: var(--transition);
+  display: flex;
+  color: var(--system-message-color);
+  flex-direction: column;
+}
+
+/* Form Elements */
+input#userMessage, input#username, input#roomName {
+  border-radius: var(--border-radius);
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+  transition: var(--transition);
+  font-size: 14px;
+}
+
+input#userMessage:focus, input#username:focus, input#roomName:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+div#messageBox {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+button#btnSend {
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+button#btnSend:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.05);
+}
+
+/* Connection Buttons */
+#connectionButtons {
+  display: flex;
+  padding-top: 15px;
+  gap: 15px;
+}
+
+#connectionButtons button {
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+#btnJoin {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+#btnJoin:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+#btnDisconnect {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+}
+
+#btnDisconnect:hover {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* Chat History Container */
+#chatHistory {
+  background-color: #f9fafb;
+  border-radius: var(--border-radius);
+  padding: 16px;
+  max-height: 400px;
+  height: 400px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary-color) #f9fafb;
+}
+
+.darkmode #chatHistory {
+  background-color: var(--base-variant);
+}
+
+#chatHistory::-webkit-scrollbar {
+  width: 6px;
+}
+
+#chatHistory::-webkit-scrollbar-track {
+  background: #f9fafb;
+  border-radius: 10px;
+}
+
+#chatHistory::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-color);
+  border-radius: 10px;
+}
+
+/* Form Styling */
+.form-label {
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: block;
+  color: var(--text-color);
+}
+
+#msgForm div {
+  margin-bottom: 16px;
+}
+
+/* Message Timestamp */
+.message-time {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 4px;
+  text-align: right;
+}
+
+/* Animations */
+@@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.messageLi {
+    padding: 10px 16px;
+    animation: fadeIn 0.3s ease-out;
+    margin-bottom: 1em;
+}
+
+
+/* Responsive adjustments */
+@@media (max-width: 768px) {
+  .sender, .recipient {
+    max-width: 90%;
+  }
+  
+  input#userMessage, input#username, input#roomName {
+    padding: 10px 14px;
+  }
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aspnet-signalr/1.1.4/signalr.min.js" integrity="sha512-hqwtOj6waHZZoLRoJoLn0tq34JS97tR1QmhM69uvyrt3LVBiR1o0xeOVAskjUFL1L1fahQH2W7IdcMaFbqCEaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" referrerpolicy="no-referrer"></script>
+
+<div>
+    <form class="row g-3" id="msgForm">
+        <div>
+            <label class="form-label" for="username">Username</label>
+            <input type="text"
+                   class="form-control border"
+                   id="username"
+                   placeholder="Enter username"
+                   required
+                   autocomplete="off"
+                   minlength="1"
+                   maxlength="12" />
+        </div>
+        <div>
+            <label class="form-label">Message</label>
+            <div class="input-group mb-3" id="messageBox">
+                <input type="text"
+                       class="form-control"
+                       id="userMessage"
+                       placeholder="Enter message, link, or online image link"
+                       required
+                       autocomplete="off"
+                       maxlength="200" />
+
+               
+                <button id="btnSend" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16"
+                         height="16"
+                         fill="currentColor"
+                         class="bi bi-send"
+                         viewBox="0 0 16 16">
+                        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="mt-3 mb-3">
+        <ul id="chatHistory"
+            class="list-group overflow-auto"
+            style="max-height: 400px; height: 400px"></ul>
+    </div>
+
+    <div>
+        <label class="form-label">Room Name</label>
+        <div class="mb-3">
+            <input type="text"
+                   class="form-control"
+                   id="roomName"
+                   placeholder="Enter room name!"
+                   required
+                   autocomplete="off" />
+            <div class="input-group" id="connectionButtons">
+                <button id="btnJoin" class="btn btn-outline-secondary">
+                    Join Room
+                </button>
+                <button id="btnDisconnect" class="btn btn-danger visually-hidden">
+                    Disconnect
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
