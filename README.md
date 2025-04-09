@@ -1,4 +1,4 @@
-# NodeChat
+# NodeChat | Dynamic Chat Application
 
 A real-time chat application built using **ASP.NET Core** with **Razor Pages**, designed for educational purposes. This project includes user interaction via a chat interface and covers core web development concepts such as routing, model binding, and basic testing.
 
