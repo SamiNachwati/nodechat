@@ -1,8 +1,8 @@
-# 🗨️ NodeChat
+# NodeChat
 
 A real-time chat application built using **ASP.NET Core** with **Razor Pages**, designed for educational purposes. This project includes user interaction via a chat interface and covers core web development concepts such as routing, model binding, and basic testing.
 
-## 📁 Project Structure
+## Project Structure
 
 - `Assignment4ChatApplication/` – Main web application (front-end + back-end logic)  
 - `Assignment4ChatTests/` – Unit tests for validating core functionality  
@@ -13,7 +13,7 @@ A real-time chat application built using **ASP.NET Core** with **Razor Pages**, 
 - `Program.cs` – Entry point for the app  
 - `ChatArea.cs` – Core logic for the chat feature  
 
-## ⚙️ Technologies Used
+## Technologies Used
 
 - C#  
 - ASP.NET Core (Razor Pages)  
@@ -21,14 +21,14 @@ A real-time chat application built using **ASP.NET Core** with **Razor Pages**, 
 - xUnit (for unit testing)  
 - Visual Studio  
 
-## ✅ Features
+## Features
 
 - Real-time chat functionality  
 - Message display area with basic styling  
 - Server-side processing with Razor Pages  
 - Unit testing support via `Assignment4ChatTests`  
 
-## 🚀 Getting Started
+## Running The App
 
 1. **Clone the repo**
    ```bash
@@ -45,18 +45,14 @@ A real-time chat application built using **ASP.NET Core** with **Razor Pages**, 
 4. **(Optional) Run unit tests**  
    Navigate to the `Test` tab in Visual Studio and run the tests under `Assignment4ChatTests`
 
-## 🧪 Sample Test Case
+## Sample Test Case
 
 `UnitTest1.cs` includes sample tests such as:
 - Verifying message parsing  
 - Ensuring proper message formatting  
 - Simulating user input  
 
-## 📌 Notes
+## Notes
 
 - This project was developed as part of a course assignment and is intended for educational/demonstration use.  
 - It does not currently include authentication or persistent storage.  
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
