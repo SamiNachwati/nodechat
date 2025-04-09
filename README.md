@@ -56,3 +56,9 @@ A real-time chat application built using **ASP.NET Core** with **Razor Pages**, 
 
 - This project was developed as part of a course assignment and is intended for educational/demonstration use.  
 - It does not currently include authentication or persistent storage.  
+
+
+## Author
+
+**Sami Nachwati**  
+[GitHub](https://github.com/SamiNachwati) • [LinkedIn](https://linkedin.com/in/sami-nachwati-519288264)
